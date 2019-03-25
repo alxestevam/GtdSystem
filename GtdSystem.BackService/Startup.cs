@@ -28,7 +28,7 @@ namespace GtdSystem.BackService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserTaskContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<UserTaskContext>(options => options.UseSqlServer(Configuration.GetConnectionString("JallenConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(options =>
                 options.SwaggerDoc("v1", new Info { Title = "Gtd System", Version = "v1" }));

@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GtdSystem.BackService.Migrations
 {
     [DbContext(typeof(UserTaskContext))]
-    [Migration("20190322160715_UserTaskInitial")]
-    partial class UserTaskInitial
+    [Migration("20190325132253_usertask")]
+    partial class usertask
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -53,19 +53,6 @@ namespace GtdSystem.BackService.Migrations
                     b.ToTable("Subtask");
                 });
 
-            modelBuilder.Entity("GtdSystem.BackService.Models.TaskType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaskType");
-                });
-
             modelBuilder.Entity("GtdSystem.BackService.Models.UserTask", b =>
                 {
                     b.Property<int>("Id")
@@ -89,13 +76,11 @@ namespace GtdSystem.BackService.Migrations
                     b.Property<string>("Title")
                         .IsRequired();
 
-                    b.Property<int>("TypeId");
+                    b.Property<int>("Type");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TaskContextId");
-
-                    b.HasIndex("TypeId");
 
                     b.ToTable("UserTasks");
                 });
@@ -112,11 +97,6 @@ namespace GtdSystem.BackService.Migrations
                     b.HasOne("GtdSystem.BackService.Models.Context", "TaskContext")
                         .WithMany()
                         .HasForeignKey("TaskContextId");
-
-                    b.HasOne("GtdSystem.BackService.Models.TaskType", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

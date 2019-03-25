@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace GtdSystem.BackService.Models
 {
+    public enum Type { inbox, next, someday, references };
+
     public class UserTask
     {
         public int Id { get; set; }
@@ -20,7 +22,7 @@ namespace GtdSystem.BackService.Models
         public DateTime Deadline { get; set; }
 
         [Required]
-        public TaskType Type { get; set; }
+        public Type Type { get; set; }
 
         public int NecessaryTime { get; set; }
 

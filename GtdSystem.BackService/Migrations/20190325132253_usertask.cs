@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GtdSystem.BackService.Migrations
 {
-    public partial class UserTaskInitial : Migration
+    public partial class usertask : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,19 +22,6 @@ namespace GtdSystem.BackService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TaskType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TaskType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserTasks",
                 columns: table => new
                 {
@@ -44,7 +31,7 @@ namespace GtdSystem.BackService.Migrations
                     Description = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     Deadline = table.Column<DateTime>(nullable: false),
-                    TypeId = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
                     NecessaryTime = table.Column<int>(nullable: false),
                     Priority = table.Column<int>(nullable: false),
                     Done = table.Column<bool>(nullable: false),
@@ -59,12 +46,6 @@ namespace GtdSystem.BackService.Migrations
                         principalTable: "Context",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserTasks_TaskType_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "TaskType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,11 +78,6 @@ namespace GtdSystem.BackService.Migrations
                 name: "IX_UserTasks_TaskContextId",
                 table: "UserTasks",
                 column: "TaskContextId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserTasks_TypeId",
-                table: "UserTasks",
-                column: "TypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -114,9 +90,6 @@ namespace GtdSystem.BackService.Migrations
 
             migrationBuilder.DropTable(
                 name: "Context");
-
-            migrationBuilder.DropTable(
-                name: "TaskType");
         }
     }
 }
