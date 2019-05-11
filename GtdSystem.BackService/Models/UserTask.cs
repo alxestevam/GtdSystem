@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GtdSystem.BackService.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace GtdSystem.BackService.Models
 
     public class UserTask
     {
+        public virtual AplicationUser AplicationUser { get; set; }
+
         public int Id { get; set; }
 
         [Required]

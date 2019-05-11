@@ -1,4 +1,5 @@
 ﻿using GtdSystem.BackService.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GtdSystem.BackService.Data
 {
-    public class UserTaskContext : DbContext
+    public class UserTaskContext : IdentityDbContext<AplicationUser>
     {
         public DbSet<UserTask> UserTasks { get; set; }
 
@@ -17,9 +18,15 @@ namespace GtdSystem.BackService.Data
 
         public UserTaskContext() { }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            
+        }
+
         public static void SeedData(IServiceProvider serviceProvider)
         {
-            using(var serviceScope = serviceProvider
+            using (var serviceScope = serviceProvider
                 .GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.
