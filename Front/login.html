@@ -26,21 +26,36 @@
         <label for="pwd">Password:</label>
         <input type="password" class="form-control" id="pwd" name="password">
       </div>
-      <button type="submit" class="btn btn-primary" onclick="login()">Submit</button>
+      <button class="btn btn-primary" onclick="login()">Submit</button>
     </form>
     <script>
-      const api_addr = "https://localhost:5001/api/"
+      const api_addr = "http://localhost:5000/api/"
 
 
       function login() {
-        $.post(api_addr + "Login/login",
-          {
-            username: $('#usr').val(),
-            password: $('#pwd').val()
-          },
-          function (data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
+        let data = {
+          username: $('#usr').val(),
+          password: $('#pwd').val()
+        }
+
+        console.log(data);
+        $.ajax({
+          url: api_addr + "Login/login",
+          type: 'post',
+          data: data,
+          beforeSend: function () {
+            alert("Enviando dados: " + data);
+          }
+        })
+          .done(function (msg) {
+            console.log(msg);
+          })
+          .fail(function (jqXHR, textStatus, msg) {
+            console.log(msg);
           });
+
+
+
       }
     </script>
   </div>
