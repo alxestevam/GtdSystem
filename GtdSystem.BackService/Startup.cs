@@ -32,7 +32,12 @@ namespace GtdSystem.BackService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserTaskContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FacensAlexandre")));
+            // SQL Server
+            // services.AddDbContext<UserTaskContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FacensAlexandre")));
+            
+            // My SQL
+            var connection = Configuration["Mysql:MySqlConnectionString"];
+            services.AddDbContext<UserTaskContext>(options => options.UseMySql(Configuration.GetConnectionString("Mysql"))); 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
