@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace GtdSystem.BackService.Controllers
 {
     [Route("api/[controller]")]
+    
     [ApiController]
     public class LoginController : ControllerBase
     {

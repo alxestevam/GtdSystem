@@ -13,6 +13,7 @@ namespace GtdSystem.BackService.Models
     {
         public virtual AplicationUser AplicationUser { get; set; }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]

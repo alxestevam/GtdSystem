@@ -25,9 +25,12 @@ namespace GtdSystem.BackService
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
+
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -68,6 +71,18 @@ namespace GtdSystem.BackService
                 };
             });
 
+            services.AddCors(options =>
+        {
+            options.AddPolicy(MyAllowSpecificOrigins,
+            builder =>
+            {
+                
+                builder.AllowAnyHeader().AllowAnyOrigin()
+                                .AllowAnyMethod();
+            });
+        });
+
+        //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
          
         }
 
@@ -96,8 +111,8 @@ namespace GtdSystem.BackService
                 app.UseHsts();
             }
 
-
-            app.UseHttpsRedirection();
+            app.UseCors(MyAllowSpecificOrigins); 
+            //app.UseHttpsRedirection();
             app.UseMvc();
 
         }

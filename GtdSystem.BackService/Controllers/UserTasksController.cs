@@ -46,28 +46,42 @@ namespace GtdSystem.BackService.Controllers
         [HttpGet("{id}", Name = "Get")]
         public UserTask Get(int id)
         {
+            Console.WriteLine("GET BY ID=" +id);
             var userId = userManager.GetUserId(HttpContext.User);
 
             var task = _context.UserTasks.Find(id);
 
-            if (task.AplicationUser.Id == userId)
+            return task;
+
+            /*if (task.AplicationUser.Id == userId)
                 return task;
             else
-                return null;
+                return null;*/
         }
 
         // POST: api/Tasks
         [HttpPost]
-        public IActionResult Post([FromBody] UserTask value)
+        public IActionResult Post([FromBody] TaskFront value)
         {
             
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var userId = userManager.GetUserId(HttpContext.User);
-            value.AplicationUser.Id = userId;
+            
 
-            _context.UserTasks.Add(value);
+            Console.WriteLine("UserID: " + userId);
+
+            UserTask newTask = new UserTask();
+            AplicationUser appUser = _context.Users.Find(userId);
+
+            Console.WriteLine("User found email: " + appUser.Email);
+            newTask.AplicationUser = appUser;
+            newTask.Deadline = value.Deadline;
+            newTask.Title = value.Title;
+            newTask.Type = Models.Type.next;
+
+            _context.UserTasks.Update(newTask);
             _context.SaveChanges();
 
             return Ok();
@@ -93,6 +107,33 @@ namespace GtdSystem.BackService.Controllers
             */
 
             _context.UserTasks.Update(value);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        // PUT: api/Tasks/5/toggle
+        [HttpPut("{id}/toggle")]
+        public async Task<IActionResult> PutAsync(int id)
+        {
+            UserTask task = _context.UserTasks.Find(id);
+            if (task == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var userId = await userManager.GetUserIdAsync(user);
+            /*
+            if(value.AplicationUser.Id == userId)
+            {
+
+            }
+            */
+
+            task.Done = !task.Done;
+            _context.UserTasks.Update(task);
             await _context.SaveChangesAsync();
 
             return Ok();
