@@ -40,7 +40,7 @@ namespace GtdSystem.BackService
             
             // My SQL
             var connection = Configuration["Mysql:MySqlConnectionString"];
-            services.AddDbContext<UserTaskContext>(options => options.UseMySql(Configuration.GetConnectionString("Mysql"))); 
+            services.AddDbContext<UserTaskContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

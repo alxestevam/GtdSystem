@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -85,6 +86,22 @@ namespace GtdSystem.BackService.Controllers
             _context.SaveChanges();
 
             return Ok();
+        }
+
+        // POST: api/Tasks
+        [HttpPost("/adiar", Name = "Adiar")]
+        public void PostAdiar()
+        {
+            var userId = userManager.GetUserId(HttpContext.User);
+
+            using (SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=GtdSystem;Integrated Security=True")) {
+                SqlCommand cmd = new SqlCommand("adiarAllTask", conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            
         }
 
         // PUT: api/Tasks/5
